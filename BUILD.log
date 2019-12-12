@@ -3,25 +3,25 @@ Building debug/SConscript with action:
   UnlinkFunc(target, source, env)
 Building debug/SConscript with action:
   LinkFunc(target, source, env)
-Building debug/foolib/SConscript with action:
+Building debug/barexec/SConscript with action:
   UnlinkFunc(target, source, env)
-Building debug/foolib/SConscript with action:
+Building debug/barexec/SConscript with action:
   LinkFunc(target, source, env)
-Building debug/barexec/SConscript with action:
+Building debug/foolib/SConscript with action:
   UnlinkFunc(target, source, env)
-Building debug/barexec/SConscript with action:
+Building debug/foolib/SConscript with action:
   LinkFunc(target, source, env)
 Building release/SConscript with action:
   UnlinkFunc(target, source, env)
 Building release/SConscript with action:
   LinkFunc(target, source, env)
-Building release/foolib/SConscript with action:
+Building release/barexec/SConscript with action:
   UnlinkFunc(target, source, env)
-Building release/foolib/SConscript with action:
+Building release/barexec/SConscript with action:
   LinkFunc(target, source, env)
-Building release/barexec/SConscript with action:
+Building release/foolib/SConscript with action:
   UnlinkFunc(target, source, env)
-Building release/barexec/SConscript with action:
+Building release/foolib/SConscript with action:
   LinkFunc(target, source, env)
 scons: done reading SConscript files.
 scons: Building targets ...
@@ -33,45 +33,10 @@ Building release/barexec/main.c with action:
 Building release/barexec/main.o with action:
   $CC -o $TARGET -c $CFLAGS $CCFLAGS $_CCCOMCOM $SOURCES
 gcc -o release/barexec/main.o -c -Wall -O -DNDEBUG -Ifoolib/inc release/barexec/main.c
-Building release/foolib/foo.c with action:
-  UnlinkFunc(target, source, env)
-Building release/foolib/foo.c with action:
-  LinkFunc(target, source, env)
-Building release/foolib/foo.os with action:
-  $SHCC -o $TARGET -c $SHCFLAGS $SHCCFLAGS $_CCCOMCOM $SOURCES
-gcc -o release/foolib/foo.os -c -Wall -O -fPIC -DNDEBUG -Ifoolib/inc -Irelease/foolib/internal/inc release/foolib/foo.c
-Building release/foolib/libfoo.so with action:
-  SharedFlagChecker(target, source, env)
-Building release/foolib/libfoo.so with action:
-  $SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
-gcc -o release/foolib/libfoo.so -shared release/foolib/foo.os
-Building release/foolib/libfoo.so with action:
-  LibSymlinksActionFunction(target, source, env)
 Building release/barexec/bar with action:
-  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
-gcc -o release/barexec/bar release/barexec/main.o -Lrelease/foolib -lfoo
-Building debug/barexec/main.c with action:
-  UnlinkFunc(target, source, env)
-Building debug/barexec/main.c with action:
-  LinkFunc(target, source, env)
-Building debug/barexec/main.o with action:
-  $CC -o $TARGET -c $CFLAGS $CCFLAGS $_CCCOMCOM $SOURCES
-gcc -o debug/barexec/main.o -c -Wall -O0 -Ifoolib/inc debug/barexec/main.c
-Building debug/foolib/foo.c with action:
-  UnlinkFunc(target, source, env)
-Building debug/foolib/foo.c with action:
-  LinkFunc(target, source, env)
-Building debug/foolib/foo.os with action:
-  $SHCC -o $TARGET -c $SHCFLAGS $SHCCFLAGS $_CCCOMCOM $SOURCES
-gcc -o debug/foolib/foo.os -c -Wall -O0 -fPIC -Ifoolib/inc -Idebug/foolib/internal/inc debug/foolib/foo.c
-Building debug/foolib/libfoo.so with action:
-  SharedFlagChecker(target, source, env)
-Building debug/foolib/libfoo.so with action:
-  $SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
-gcc -o debug/foolib/libfoo.so -shared debug/foolib/foo.os
-Building debug/foolib/libfoo.so with action:
-  LibSymlinksActionFunction(target, source, env)
-Building debug/barexec/bar with action:
-  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
-gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
-scons: done building targets.
+  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS $_FRAMEWORKPATH $_FRAMEWORKS $FRAMEWORKSFLAGS
+gcc -o release/barexec/bar release/barexec/main.o -lfoo
+ld: library not found for -lfoo
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+scons: *** [release/barexec/bar] Error 1
+scons: building terminated because of errors.

@@ -3,13 +3,10 @@ scons: done reading SConscript files.
 scons: Building targets ...
 scons: building associated VariantDir targets: debug release
 gcc -o release/barexec/main.o -c -Wall -O -DNDEBUG -Ifoolib/inc release/barexec/main.c
-gcc -o release/foolib/foo.os -c -Wall -O -fPIC -DNDEBUG -Ifoolib/inc -Irelease/foolib/internal/inc release/foolib/foo.c
-gcc -o release/foolib/libfoo.so -shared release/foolib/foo.os
-gcc -o release/barexec/bar release/barexec/main.o -Lrelease/foolib -lfoo
-gcc -o debug/barexec/main.o -c -Wall -O0 -Ifoolib/inc debug/barexec/main.c
-gcc -o debug/foolib/foo.os -c -Wall -O0 -fPIC -Ifoolib/inc -Idebug/foolib/internal/inc debug/foolib/foo.c
-gcc -o debug/foolib/libfoo.so -shared debug/foolib/foo.os
-gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
+gcc -o release/barexec/bar release/barexec/main.o -lfoo
+ld: library not found for -lfoo
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+scons: *** [release/barexec/bar] Error 1
 +-.
   +-SConscript
   +-SConstruct
@@ -25,20 +22,17 @@ gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
   | | | | +-debug/barexec/main.c
   | | | | +-/usr/bin/gcc
   | | | +-/usr/bin/gcc
-  | | | +-debug/foolib/libfoo.so
-  | | |   +-debug/foolib/foo.os
-  | | |   | +-debug/foolib/foo.c
-  | | |   | +-/usr/bin/gcc
-  | | |   +-/usr/bin/gcc
   | | +-debug/barexec/main.c
   | | +-[debug/barexec/main.o]
   | +-debug/foolib
   |   +-debug/foolib/SConscript
   |   +-debug/foolib/foo.c
-  |   +-[debug/foolib/foo.os]
-  |   +-debug/foolib/internal
-  |   | +-debug/foolib/internal/inc
-  |   +-[debug/foolib/libfoo.so]
+  |   +-debug/foolib/foo.os
+  |   | +-debug/foolib/foo.c
+  |   | +-/usr/bin/gcc
+  |   +-debug/foolib/libfoo.dylib
+  |     +-[debug/foolib/foo.os]
+  |     +-/usr/bin/gcc
   +-foolib
   | +-foolib/SConscript
   | +-foolib/foo.c
@@ -54,18 +48,15 @@ gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
     | | | +-release/barexec/main.c
     | | | +-/usr/bin/gcc
     | | +-/usr/bin/gcc
-    | | +-release/foolib/libfoo.so
-    | |   +-release/foolib/foo.os
-    | |   | +-release/foolib/foo.c
-    | |   | +-/usr/bin/gcc
-    | |   +-/usr/bin/gcc
     | +-release/barexec/main.c
     | +-[release/barexec/main.o]
     +-release/foolib
       +-release/foolib/SConscript
       +-release/foolib/foo.c
-      +-[release/foolib/foo.os]
-      +-release/foolib/internal
-      | +-release/foolib/internal/inc
-      +-[release/foolib/libfoo.so]
-scons: done building targets.
+      +-release/foolib/foo.os
+      | +-release/foolib/foo.c
+      | +-/usr/bin/gcc
+      +-release/foolib/libfoo.dylib
+        +-[release/foolib/foo.os]
+        +-/usr/bin/gcc
+scons: building terminated because of errors.
