@@ -40,15 +40,15 @@ Building release/foolib/foo.c with action:
 Building release/foolib/foo.os with action:
   $SHCC -o $TARGET -c $SHCFLAGS $SHCCFLAGS $_CCCOMCOM $SOURCES
 gcc -o release/foolib/foo.os -c -Wall -O -fPIC -DNDEBUG -Ifoolib/inc -Irelease/foolib/internal/inc release/foolib/foo.c
-Building release/foolib/libfoo.so with action:
+Building release/foolib/libfoo.dylib with action:
   SharedFlagChecker(target, source, env)
-Building release/foolib/libfoo.so with action:
-  $SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
-gcc -o release/foolib/libfoo.so -shared release/foolib/foo.os
-Building release/foolib/libfoo.so with action:
+Building release/foolib/libfoo.dylib with action:
+  $SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS $_FRAMEWORKPATH $_FRAMEWORKS $FRAMEWORKSFLAGS
+gcc -o release/foolib/libfoo.dylib -dynamiclib release/foolib/foo.os
+Building release/foolib/libfoo.dylib with action:
   LibSymlinksActionFunction(target, source, env)
 Building release/barexec/bar with action:
-  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
+  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS $_FRAMEWORKPATH $_FRAMEWORKS $FRAMEWORKSFLAGS
 gcc -o release/barexec/bar release/barexec/main.o -Lrelease/foolib -lfoo
 Building debug/barexec/main.c with action:
   UnlinkFunc(target, source, env)
@@ -64,14 +64,14 @@ Building debug/foolib/foo.c with action:
 Building debug/foolib/foo.os with action:
   $SHCC -o $TARGET -c $SHCFLAGS $SHCCFLAGS $_CCCOMCOM $SOURCES
 gcc -o debug/foolib/foo.os -c -Wall -O0 -fPIC -Ifoolib/inc -Idebug/foolib/internal/inc debug/foolib/foo.c
-Building debug/foolib/libfoo.so with action:
+Building debug/foolib/libfoo.dylib with action:
   SharedFlagChecker(target, source, env)
-Building debug/foolib/libfoo.so with action:
-  $SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
-gcc -o debug/foolib/libfoo.so -shared debug/foolib/foo.os
-Building debug/foolib/libfoo.so with action:
+Building debug/foolib/libfoo.dylib with action:
+  $SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS $_FRAMEWORKPATH $_FRAMEWORKS $FRAMEWORKSFLAGS
+gcc -o debug/foolib/libfoo.dylib -dynamiclib debug/foolib/foo.os
+Building debug/foolib/libfoo.dylib with action:
   LibSymlinksActionFunction(target, source, env)
 Building debug/barexec/bar with action:
-  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS
+  $LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS $_FRAMEWORKPATH $_FRAMEWORKS $FRAMEWORKSFLAGS
 gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
 scons: done building targets.

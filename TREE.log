@@ -4,11 +4,11 @@ scons: Building targets ...
 scons: building associated VariantDir targets: debug release
 gcc -o release/barexec/main.o -c -Wall -O -DNDEBUG -Ifoolib/inc release/barexec/main.c
 gcc -o release/foolib/foo.os -c -Wall -O -fPIC -DNDEBUG -Ifoolib/inc -Irelease/foolib/internal/inc release/foolib/foo.c
-gcc -o release/foolib/libfoo.so -shared release/foolib/foo.os
+gcc -o release/foolib/libfoo.dylib -dynamiclib release/foolib/foo.os
 gcc -o release/barexec/bar release/barexec/main.o -Lrelease/foolib -lfoo
 gcc -o debug/barexec/main.o -c -Wall -O0 -Ifoolib/inc debug/barexec/main.c
 gcc -o debug/foolib/foo.os -c -Wall -O0 -fPIC -Ifoolib/inc -Idebug/foolib/internal/inc debug/foolib/foo.c
-gcc -o debug/foolib/libfoo.so -shared debug/foolib/foo.os
+gcc -o debug/foolib/libfoo.dylib -dynamiclib debug/foolib/foo.os
 gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
 +-.
   +-SConscript
@@ -25,7 +25,7 @@ gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
   | | | | +-debug/barexec/main.c
   | | | | +-/usr/bin/gcc
   | | | +-/usr/bin/gcc
-  | | | +-debug/foolib/libfoo.so
+  | | | +-debug/foolib/libfoo.dylib
   | | |   +-debug/foolib/foo.os
   | | |   | +-debug/foolib/foo.c
   | | |   | +-/usr/bin/gcc
@@ -38,7 +38,7 @@ gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
   |   +-[debug/foolib/foo.os]
   |   +-debug/foolib/internal
   |   | +-debug/foolib/internal/inc
-  |   +-[debug/foolib/libfoo.so]
+  |   +-[debug/foolib/libfoo.dylib]
   +-foolib
   | +-foolib/SConscript
   | +-foolib/foo.c
@@ -54,7 +54,7 @@ gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
     | | | +-release/barexec/main.c
     | | | +-/usr/bin/gcc
     | | +-/usr/bin/gcc
-    | | +-release/foolib/libfoo.so
+    | | +-release/foolib/libfoo.dylib
     | |   +-release/foolib/foo.os
     | |   | +-release/foolib/foo.c
     | |   | +-/usr/bin/gcc
@@ -67,5 +67,5 @@ gcc -o debug/barexec/bar debug/barexec/main.o -Ldebug/foolib -lfoo
       +-[release/foolib/foo.os]
       +-release/foolib/internal
       | +-release/foolib/internal/inc
-      +-[release/foolib/libfoo.so]
+      +-[release/foolib/libfoo.dylib]
 scons: done building targets.
