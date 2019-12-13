@@ -1,5 +1,3 @@
 Import("env")
 
-clonedEnv = env.Clone()
-clonedEnv.Append(LIBPATH=["$FOOLIBDIR"], LIBS=["foo"])
-clonedEnv.Program("bar", source=["main.c"])
+env.Program("bar", source=["main.c"],LIBPATH=["$FOOLIBDIR"], LIBS=["foo"])
