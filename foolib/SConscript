@@ -1,5 +1,6 @@
 Import("env")
 
+env["FOOLIBDIR"] = Dir(".")
 penv = env.Clone()
 penv.Append(CPPPATH=["internal/inc"])
 penv.SharedLibrary("foo", source=["foo.c"])
